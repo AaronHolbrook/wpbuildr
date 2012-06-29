@@ -25,6 +25,8 @@ cat ~/Dropbox/Sites/__TOOLS/wordpress-config/wp-config.local.php > wp-config.loc
 wget http://wordpress.org/latest.tar.gz
 tar --strip-components=1 -zxvf latest.tar.gz
 rm latest.tar.gz
+rm license.txt
+rm readme.html
 
 # copy over the dev theme
 cp -r ~/Dropbox/Sites/__TOOLS/a7-skeleton/ wp-content/themes/$1
