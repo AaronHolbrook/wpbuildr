@@ -10,13 +10,23 @@ pwd
 git init
 
 # set .gitignore to ignore wp-config.local so we can set different database variables for development vs production
-echo ".DS_Store
-wp-config.local.php
+echo ".htaccess
+wp-*.php
+xmlrpc.php
+wp-admin/
+wp-includes/
 wp-content/uploads/
-wp-content/cache/
+wp-content/blogs.dir/
+wp-content/upgrade/*
+wp-content/backup-db/*
 wp-content/advanced-cache.php
-*.tmproj
-.htaccess" > .gitignore
+wp-content/wp-cache-config.php
+wp-content/cache/*
+wp-content/cache/supercache/*
+sitemap.xml
+sitemap.xml.gz
+readme.html
+license.txt" > .gitignore
 
 # copy over a template file of wp-config.local
 cat ~/Dropbox/Sites/__TOOLS/wordpress-config/wp-config.local.php > wp-config.local.php
