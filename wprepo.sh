@@ -1,13 +1,26 @@
 #!/bin/bash
 clear
-echo "------------------------------------------------------"
+echo "Welcome to Aaron Holbrook's interactive WP Automation Script!"
+echo "    ___  _____ _       __       __     ____               _             "
+echo "   /   |/__  /| |     / /___   / /_   / __ \ ___   _____ (_)____ _ ____ "
+echo '  / /| |  / / | | /| / // _ \ / __ \ / / / // _ \ / ___// // __ `// __ \'
+echo " / ___ | / /  | |/ |/ //  __// /_/ // /_/ //  __/(__  )/ // /_/ // / / /"
+echo "/_/  |_|/_/   |__/|__/ \___//_.___//_____/ \___//____//_/ \__, //_/ /_/ "
+echo "                                                         /____/         "
+echo "                  @aaronjholbrook | http://a7web.com                    "
+echo "------------------------------------------------------------------------"
+echo ""
+# create the html for site-root (to mimic MT, possibly look at allowing other structures)
+# if html dir exists, exit - let's not break anything!
+if [ -d "html" ]; then
+	echo "Oops, looks like you already have an html directory here!"
+	exit
+fi
+mkdir html; cd html
 
-mkdir html
-cd html
-pwd
-
-# initialize git repo
+# Init git repo and do an empty initial commit (for rebasing, thanks @evansolomon)
 git init
+git commit --allow-empty -m "Initial empty commit"
 
 # set .gitignore to ignore wp-config.local so we can set different database variables for development vs production
 echo ".htaccess
@@ -31,15 +44,42 @@ license.txt" > .gitignore
 # copy over a template file of wp-config.local
 cat ~/Dropbox/Sites/__TOOLS/wordpress-config/wp-config.local.php > wp-config.local.php
 
-# # download wordpress, extract and delete original tar
+## download wordpress, extract and delete original tar
 wget http://wordpress.org/latest.tar.gz
 tar --strip-components=1 -zxvf latest.tar.gz
 rm latest.tar.gz
 rm license.txt
 rm readme.html
 
-# copy over the dev theme
-cp -r ~/Dropbox/Sites/__TOOLS/a7-skeleton/ wp-content/themes/$1
+# Build our theme from a framework? 
+echo "What theme framework would you like to use?"
+echo "Options: [_s, starkers, html5, bones, a7, custom, none]"
+read framework
+
+if [ $framework == "_s" ]; then
+  framework_repo="git://github.com/Automattic/_s.git"
+elif [ $framework == "starkers" ]; then
+	framework_repo="git://github.com/viewportindustries/starkers.git"
+elif [ $framework == "html5"]; then
+	framework_repo="git://github.com/murtaugh/HTML5-Reset-Wordpress-Theme.git"  
+elif [ $framework == "bones" ]; then
+	framework_repo="git://github.com/eddiemachado/bones.git"
+elif [ $framework == "roots" ]; then
+	framework_repo="git://github.com/retlehs/roots.git"
+elif [ $framework == "a7" ]; then
+  framework_repo="git://github.com/AaronHolbrook/a7_start.git"	
+elif [ $framework == "custom" ]; then
+  echo "Location for custom theme: [can be git:// protocol or just a local git repository]"
+  read $framework_repo
+elif [ $framework == "none" ]; then
+	framework_repo="none"
+fi
+
+if [ $framework_repo != "none" ]; then
+	# clone the repo into our new base directory
+	git clone $framework_repo "wp-content/themes/"$1
+fi
+#cp -r ~/Dropbox/Sites/__TOOLS/a7-skeleton/ wp-content/themes/$1
 
 # do an initial commit
 git add .
