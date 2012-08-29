@@ -1,5 +1,6 @@
 #!/bin/bash
 clear
+echo ""
 echo "Welcome to Aaron Holbrook's interactive WP Automation Script!"
 echo "    ___  _____ _       __       __     ____               _             "
 echo "   /   |/__  /| |     / /___   / /_   / __ \ ___   _____ (_)____ _ ____ "
@@ -7,55 +8,53 @@ echo '  / /| |  / / | | /| / // _ \ / __ \ / / / // _ \ / ___// // __ `// __ \'
 echo " / ___ | / /  | |/ |/ //  __// /_/ // /_/ //  __/(__  )/ // /_/ // / / /"
 echo "/_/  |_|/_/   |__/|__/ \___//_.___//_____/ \___//____//_/ \__, //_/ /_/ "
 echo "                                                         /____/         "
-echo "                  @aaronjholbrook | http://a7web.com                    "
+echo "          @aaronjholbrook | http://a7web.com | aaron@a7web.com          "
 echo "------------------------------------------------------------------------"
 echo ""
+
 # create the html for site-root (to mimic MT, possibly look at allowing other structures)
 # if html dir exists, exit - let's not break anything!
 if [ -d "html" ]; then
 	echo "Oops, looks like you already have an html directory here!"
+	echo "exiting..."
 	exit
 fi
+
+
+# Set path of script for our library files
+dir=`dirname $0`
+
+# Create html directory (todo: customizable structure)
 mkdir html; cd html
-
-# Init git repo and do an empty initial commit (for rebasing, thanks @evansolomon)
-git init
-git commit --allow-empty -m "Initial empty commit"
-
-# set .gitignore to ignore wp-config.local so we can set different database variables for development vs production
-echo ".htaccess
-wp-*.php
-xmlrpc.php
-wp-admin/
-wp-includes/
-wp-content/uploads/
-wp-content/blogs.dir/
-wp-content/upgrade/*
-wp-content/backup-db/*
-wp-content/advanced-cache.php
-wp-content/wp-cache-config.php
-wp-content/cache/*
-wp-content/cache/supercache/*
-sitemap.xml
-sitemap.xml.gz
-readme.html
-license.txt" > .gitignore
-
-# copy over a template file of wp-config.local
-cat ~/Dropbox/Sites/__TOOLS/wordpress-config/wp-config.local.php > wp-config.local.php
-
-## download wordpress, extract and delete original tar
-wget http://wordpress.org/latest.tar.gz
-tar --strip-components=1 -zxvf latest.tar.gz
-rm latest.tar.gz
-rm license.txt
-rm readme.html
 
 # Build our theme from a framework? 
 echo "What theme framework would you like to use?"
 echo "Options: [_s, starkers, html5, bones, a7, custom, none]"
 read framework
 
+# Init git repo and do an empty initial commit (for rebasing, thanks @evansolomon)
+git init
+git commit --allow-empty -m "Initial empty commit"
+
+# set .gitignore to ignore wp-config.local so we can set different database variables for development vs production
+cat "$dir/lib/.gitignore" > .gitignore
+
+# copy over a template file of wp-config.local
+#cat "$dir/lib/wp-config.local.php" > wp-config.local.php
+
+# download wordpress, extract and delete original tar
+wget http://wordpress.org/latest.tar.gz
+tar --strip-components=1 -zxvf latest.tar.gz
+rm latest.tar.gz
+rm license.txt
+rm readme.html
+
+# We succesfully added WordPress, so let's commit!
+git add .
+git commit -am "WordPress installed!"
+
+
+# Use framework option
 if [ $framework == "_s" ]; then
   framework_repo="git://github.com/Automattic/_s.git"
 elif [ $framework == "starkers" ]; then
@@ -75,17 +74,17 @@ elif [ $framework == "none" ]; then
 	framework_repo="none"
 fi
 
+# if the user did not choose none, then add the theme to our themes folder
 if [ $framework_repo != "none" ]; then
 	# clone the repo into our new base directory
 	git clone $framework_repo "wp-content/themes/"$1
 fi
-#cp -r ~/Dropbox/Sites/__TOOLS/a7-skeleton/ wp-content/themes/$1
 
-# do an initial commit
+# Cool - we added our theme, let's commit!
 git add .
-git commit -am "initial commit"
+git commit -am "Theme framework installed!"
 
-# go to plugins and clean it out
+# Clean out packaged plugins (akismet & hello dolly)
 cd wp-content/plugins
 rm -rf akismet
 rm hello.php
@@ -106,7 +105,7 @@ tar --strip-components=1 -zxvf wp-dummy-content.zip
 rm wp-dummy-content.zip
 cd ..
 
-# debug bar!
+# Debug bar
 mkdir debug-bar
 cd debug-bar
 wget http://downloads.wordpress.org/plugin/debug-bar.zip
@@ -151,9 +150,12 @@ tar --strip-components=1 -zxvf regenerate-thumbnails.zip
 rm regenerate-thumbnails.zip
 cd ..
 
+# cool, plugins are installed, let's commit!
+git add .
+git commit -am "Plugins installed!"
+
 
 cd ../../ 
-
 echo "<?php
 /**
  * The base configurations of the WordPress.
@@ -257,6 +259,9 @@ if ( !defined('ABSPATH') )
 /** Sets up WordPress vars and included files. */
 require_once(ABSPATH . 'wp-settings.php');" >> wp-config.php
 
+# All done with wp-config.php so let's remove that wp-config-sample.php file
+rm wp-config-sample.php
+
 
 # define wp-config.local
 echo "<?php
@@ -277,20 +282,23 @@ define('SAVEQUERIES', true);
 \$table_prefix  = 'wp_$1_'; 
 ?>" > wp-config.local.php
 
+# cool, wp-config(s) has been created, let's commit!
+git add .
+git commit -am "wp-config & wp-config.local created!"
+
 # create local database
 /Applications/MAMP/Library/bin/mysql -uroot -proot -e "CREATE DATABASE $1"
 
-echo "------------------------------------------------------"
-echo "DATABASE CREATED (hopefully)"
-echo "------------------------------------------------------"
+echo ''
+echo '                     _                                                             __'
+echo '   __  ______  __  _( )________     ____ __      _____  _________  ____ ___  ___  / /'
+echo '  / / / / __ \/ / / /// ___/ _ \   / __ `/ | /| / / _ \/ ___/ __ \/ __ `__ \/ _ \/ / '
+echo ' / /_/ / /_/ / /_/ / / /  /  __/  / /_/ /| |/ |/ /  __(__  ) /_/ / / / / / /  __/_/  '
+echo ' \__, /\____/\__,_/ /_/   \___/   \__,_/ |__/|__/\___/____/\____/_/ /_/ /_/\___(_)   '
+echo '/____/                                                                               '
+echo ''
+echo "If you found this useful I'd love to know! Hit me up at @aaronjholbrook"
+echo "Now go drink a beer!"
 
 
-
-#wp plugin activate debug-bar
-#wp plugin activate regenerate-thumbnails
-#wp plugin activate developer
-
-
-echo "------------------------------------------------------"
-echo "script finished"
 
