@@ -24,7 +24,7 @@ echo ' |_____|___|_| |___|__|  |_| |___|___|___|  |_____|___|_|_|___|___|_|   '
 echo '                                                                        '
 echo '          @aaronjholbrook | http://a7web.com | aaron@a7web.com          '
 echo '------------------------------------------------------------------------'
-echo ""
+echo " "
 
 
 # create the html for site-root (to mimic MT, possibly look at allowing other structures)
@@ -41,7 +41,7 @@ dir=`dirname $0`
 
 # See if there's a config file, if not offer to create one based on the options the 
 # user chooses during the setup
-if [ ! -e "$dir/config.conf" ]; then
+if [ ! -e "$dir/conf/config.conf" ]; then
 	read -p 'Would you like to save your config for next time? [Y/n]' response
 	if [[ $response =~ ^([nN][oO]|[nN])$ ]]
 		then
@@ -130,7 +130,7 @@ rm hello.php
 # To add your/modify the plugins that are installed simply
 # Change the plugins file to contain the slug of the plugins you want!
 # 
-for plugin in `cat $dir/plugins.conf`; do
+for plugin in `cat $dir/conf/plugins.conf`; do
 	echo "Installing: $plugin..."
 	mkdir $plugin; cd $plugin
 	wget http://downloads.wordpress.org/plugin/$plugin.zip
