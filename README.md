@@ -6,7 +6,8 @@ WordPress Builder automates the set up a WordPress install complete with theme f
 Requirements
 ===========
 
-* Bash >= 3.2
+* `Bash` >= 3.2
+* `wget` (does not come pre-installed, you must download/install via HomeBrew or some other way)
 
 Running
 =======
