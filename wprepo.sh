@@ -1,16 +1,31 @@
 #!/bin/bash
+#
+# This script was created to cut down on the amount of time it takes
+# to get a local install of WordPress up and running by automating the
+# things we do over and over: download WordPress, create a database, run the
+# install, download our favorite plugins, etc, etc.
+#
+# Additionally, this script is meant to help with multi-environment deployment
+# using Aaron Holbrook's WordPress/Git deployment model (http://aaronjholbrook.com/?=310)
+#
+# Created by Aaron Holbrook aaron@a7web.com
+#
+# May be freely distributed and modified as need, as long as properly attributed.
+#
+
 clear
 echo ""
-echo "Welcome to Aaron Holbrook's interactive WP Automation Script!"
-echo "    ___  _____ _       __       __     ____               _             "
-echo "   /   |/__  /| |     / /___   / /_   / __ \ ___   _____ (_)____ _ ____ "
+echo "     Welcome to Aaron Holbrook's interactive WP Automation Script!      "
+echo '    ___  _____ _       __       __     ____               _             '
+echo '   /   |/__  /| |     / /___   / /_   / __ \ ___   _____ (_)____ _ ____ '
 echo '  / /| |  / / | | /| / // _ \ / __ \ / / / // _ \ / ___// // __ `// __ \'
-echo " / ___ | / /  | |/ |/ //  __// /_/ // /_/ //  __/(__  )/ // /_/ // / / /"
-echo "/_/  |_|/_/   |__/|__/ \___//_.___//_____/ \___//____//_/ \__, //_/ /_/ "
-echo "                                                         /____/         "
-echo "          @aaronjholbrook | http://a7web.com | aaron@a7web.com          "
-echo "------------------------------------------------------------------------"
+echo ' / ___ | / /  | |/ |/ //  __// /_/ // /_/ //  __/(__  )/ // /_/ // / / /'
+echo '/_/  |_|/_/   |__/|__/ \___//_.___//_____/ \___//____//_/ \__, //_/ /_/ '
+echo '                                                         /____/         '
+echo '          @aaronjholbrook | http://a7web.com | aaron@a7web.com          '
+echo '------------------------------------------------------------------------'
 echo ""
+
 
 # create the html for site-root (to mimic MT, possibly look at allowing other structures)
 # if html dir exists, exit - let's not break anything!
@@ -20,17 +35,34 @@ if [ -d "html" ]; then
 	exit
 fi
 
-
 # Set path of script for our library files
 dir=`dirname $0`
+
+
+# See if there's a config file, if not offer to create one based on the options the 
+# user chooses during the setup
+if [ ! -e "config.conf" ]; then
+	read -p 'Would you like to save your config for next time? [Y/n]' response
+	if [[ $response =~ ^([nN][oO]|[nN])$ ]]
+		then
+				config="NO"
+		else
+		    config='YES'
+		    declare -A config_values
+		    touch config.conf
+	fi
+	# Cool there's already a config file, so let's use those defaults!
+	else
+		echo "Detected a config file, using those defaults."
+fi
+
 
 # Create html directory (todo: customizable structure)
 mkdir html; cd html
 
 # Build our theme from a framework? 
 echo "What theme framework would you like to use?"
-echo "Options: [_s, starkers, html5, bones, a7, custom, none]"
-read framework
+read -p "Options: [_s, starkers, html5, bones, a7, custom, none]" config_values["framework"]
 
 # Init git repo and do an empty initial commit (for rebasing, thanks @evansolomon)
 git init
@@ -55,22 +87,21 @@ git commit -am "WordPress installed!"
 
 
 # Use framework option
-if [ $framework == "_s" ]; then
+if [ ${config_values["framework"]} == "_s" ]; then
   framework_repo="git://github.com/Automattic/_s.git"
-elif [ $framework == "starkers" ]; then
+elif [ ${config_values["framework"]} == "starkers" ]; then
 	framework_repo="git://github.com/viewportindustries/starkers.git"
-elif [ $framework == "html5"]; then
+elif [ ${config_values["framework"]} == "html5"]; then
 	framework_repo="git://github.com/murtaugh/HTML5-Reset-Wordpress-Theme.git"  
-elif [ $framework == "bones" ]; then
+elif [ ${config_values["framework"]} == "bones" ]; then
 	framework_repo="git://github.com/eddiemachado/bones.git"
-elif [ $framework == "roots" ]; then
+elif [ ${config_values["framework"]} == "roots" ]; then
 	framework_repo="git://github.com/retlehs/roots.git"
-elif [ $framework == "a7" ]; then
+elif [ ${config_values["framework"]} == "a7" ]; then
   framework_repo="git://github.com/AaronHolbrook/a7_start.git"	
-elif [ $framework == "custom" ]; then
-  echo "Location for custom theme: [can be git:// protocol or just a local git repository]"
-  read $framework_repo
-elif [ $framework == "none" ]; then
+elif [ ${config_values["framework"]} == "custom" ]; then
+  read -p "Location for custom theme: [can be git:// protocol or just a local git repository]" config_values["framework_custom"]
+elif [ ${config_values["framework"]} == "none" ]; then
 	framework_repo="none"
 fi
 
@@ -89,66 +120,19 @@ cd wp-content/plugins
 rm -rf akismet
 rm hello.php
 
-# Developer plugin
-mkdir developer
-cd developer
-wget http://downloads.wordpress.org/plugin/developer.zip
-tar --strip-components=1 -zxvf developer.zip
-rm developer.zip
-cd ..
-
-# wp dummy content
-mkdir wp-dummy-content
-cd wp-dummy-content/
-wget http://downloads.wordpress.org/plugin/wp-dummy-content.zip
-tar --strip-components=1 -zxvf wp-dummy-content.zip
-rm wp-dummy-content.zip
-cd ..
-
-# Debug bar
-mkdir debug-bar
-cd debug-bar
-wget http://downloads.wordpress.org/plugin/debug-bar.zip
-tar --strip-components=1 -zxvf debug-bar.zip
-rm debug-bar.zip
-cd ..
-
-# debug bar console
-mkdir debug-bar-console
-cd debug-bar-console
-wget http://downloads.wordpress.org/plugin/debug-bar-console.zip
-tar --strip-components=1 -zxvf debug-bar-console.zip
-rm debug-bar-console.zip
-cd ..
-
-mkdir debug-bar-extender
-cd debug-bar-extender
-wget http://downloads.wordpress.org/plugin/debug-bar-extender.zip
-tar --strip-componenst=1 -zxvf debug-bar-extender.zip
-rm debug-bar-extender.zip
-cd ..
-
-mkdir debug-bar-query-tracer
-cd debug-bar-query-tracer
-wget http://downloads.wordpress.org/plugin/debug-bar-query-tracer.zip
-tar --strip-components=1 -zxvf debug-bar-query-tracer.zip
-rm debug-bar-query-tracer.zip
-cd ..
-
-mkdir ultimate-coming-soon-page
-cd ultimate-coming-soon-page
-wget http://downloads.wordpress.org/plugin/ultimate-coming-soon-page.zip
-tar --strip-components=1 -zxvf ultimate-coming-soon-page.zip
-rm ultimate-coming-soon-page.zip
-cd ..
-
-# regenerate thumbs
-mkdir regenerate-thumbnails
-cd regenerate-thumbnails
-wget http://downloads.wordpress.org/plugin/regenerate-thumbnails.zip
-tar --strip-components=1 -zxvf regenerate-thumbnails.zip
-rm regenerate-thumbnails.zip
-cd ..
+#
+# Install plugins that are listed in the plugins.conf file
+# To add your/modify the plugins that are installed simply
+# Change the plugins file to contain the slug of the plugins you want!
+# 
+for plugin in `cat $dir/plugins.conf`; do
+	echo "Installing: $plugin..."
+	mkdir $plugin; cd $plugin
+	wget http://downloads.wordpress.org/plugin/$plugin.zip
+	tar --strip-components=1 -zxvf $plugin.zip
+	rm $plugin.zip
+	cd ..
+done
 
 # cool, plugins are installed, let's commit!
 git add .
@@ -298,7 +282,7 @@ echo ' \__, /\____/\__,_/ /_/   \___/   \__,_/ |__/|__/\___/____/\____/_/ /_/ /_
 echo '/____/                                                                               '
 echo ''
 echo "If you found this useful I'd love to know! Hit me up at @aaronjholbrook"
-echo "Now go drink a beer!"
+echo "You're all done, now go drink a beer!"
 
 
 
