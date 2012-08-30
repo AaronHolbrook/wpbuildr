@@ -41,15 +41,15 @@ dir=`dirname $0`
 
 # See if there's a config file, if not offer to create one based on the options the 
 # user chooses during the setup
-if [ ! -e "config.conf" ]; then
+if [ ! -e "$dir/config.conf" ]; then
 	read -p 'Would you like to save your config for next time? [Y/n]' response
 	if [[ $response =~ ^([nN][oO]|[nN])$ ]]
 		then
 				config="NO"
 		else
 		    config='YES'
-		    declare -A config_values
-		    touch config.conf
+		    declare -a config_values
+		    touch $dir/config.conf
 	fi
 	# Cool there's already a config file, so let's use those defaults!
 	else
@@ -109,6 +109,9 @@ fi
 if [ $framework_repo != "none" ]; then
 	# clone the repo into our new base directory
 	git clone $framework_repo "wp-content/themes/"$1
+
+	# let's clear out one of the pre-packaged themes
+	rm -rf wp-content/themes/twentyten
 fi
 
 # Cool - we added our theme, let's commit!
