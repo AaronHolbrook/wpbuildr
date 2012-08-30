@@ -62,7 +62,7 @@ mkdir html; cd html
 
 # Build our theme from a framework? 
 echo "What theme framework would you like to use?"
-read -p "Options: [_s, starkers, html5, bones, a7, custom, none]" config_values["framework"]
+read -p "Options: [_s, startbox, starkers, html5, bones, a7, custom, none]" config_values["framework"]
 
 # Init git repo and do an empty initial commit (for rebasing, thanks @evansolomon)
 git init
@@ -89,6 +89,8 @@ git commit -am "WordPress installed!"
 # Use framework option
 if [ ${config_values["framework"]} == "_s" ]; then
   framework_repo="git://github.com/Automattic/_s.git"
+elif [ ${config_values["framework"]} == "startbox" ]; then
+	framework_repo="git://github.com/brichards/StartBox.git"  
 elif [ ${config_values["framework"]} == "starkers" ]; then
 	framework_repo="git://github.com/viewportindustries/starkers.git"
 elif [ ${config_values["framework"]} == "html5"]; then
