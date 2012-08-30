@@ -1,17 +1,18 @@
-wp-automated-setup
-==================
+WordPress Builder
+=================
 
-Shell script to help automate the set up a WordPress install complete with theme framework of your choice (todo), git repository, plugins of your choice (todo), creating database, and automating creation of wp-config file complete with salts.
+WordPress Builder automates the set up a WordPress install complete with theme framework of your choice, a git repository complete with an empty initial commit (for easy rebasing), plugins of your choice, database creation and creation of wp-config file complete with unique RSA salts.
+
+Requirements
+===========
+
+* Bash >= 3.2
 
 Running
 =======
 
-To run the script simply type the scriptname from the location you wish it to create a new WordPress install. The script accepts one argument which it will use to create the database name and theme folder as.
+Place the folder within your Bash path (`/usr/local/sbin/`, `/usr/local/`) or add it to your Bash profile path.
 
-Examples
-========
-```
-$> wprepo.sh NEWTHEME
-```
-This creates a database with the name NEWTHEME and a theme folder in /wp-content/themes/NEWTHEME with a skeleton theme (todo: add options for skeleton theme repos, or use custom location)
+Via the command line, navigate to your desired placement of your new WordPress install, simply run `wpbuildr.sh`. 
 
+`wpbuildr.sh` accepts one argument at the command line, which is the intended name of your project. This argument is used to create the database name, theme folder and the table prefix.
