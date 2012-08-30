@@ -24,7 +24,7 @@ echo '/_/  |_|/_/   |__/|__/ \___//_.___//_____/ \___//____//_/ \__, //_/ /_/ '
 echo '                                                         /____/         '
 echo '          @aaronjholbrook | http://a7web.com | aaron@a7web.com          '
 echo '------------------------------------------------------------------------'
-echo ""
+echo " "
 
 
 # create the html for site-root (to mimic MT, possibly look at allowing other structures)
