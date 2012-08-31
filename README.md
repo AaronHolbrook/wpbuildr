@@ -3,10 +3,23 @@ WordPress Builder
 
 WordPress Builder automates the set up a WordPress install complete with theme framework of your choice, a git repository with an empty initial commit (for easy rebasing), plugins of your choice, database creation and creation of wp-config file complete with unique RSA salts.
 
+Who it's for
+============
+
+This is primarily for developers that need to set up WordPress installations quite frequently and have gotten annoyed at:
+
+* Downloading and extracting WordPress
+* Inputting DB information
+* Installing/copying your starter theme or framework
+* Downloading or installing your development plugins
+
+This script aims to automate as much of the process as possible.
+
 Requirements
 ===========
 
-* Bash >= 3.2
+* `Bash` >= 3.2
+* `wget` (does not come pre-installed, you must download/install via HomeBrew or some other way)
 
 Running
 =======
