@@ -10,13 +10,11 @@
 #
 # Created by Aaron Holbrook aaron@a7web.com
 #
-# May be freely distributed and modified as need, as long as properly attributed.
 #
 
 clear
 echo ""
 echo "     Welcome to Aaron Holbrook's interactive WP Automation Script!      "
-                                                                      
 echo '  _ _ _           _ _____                    _____     _ _   _          '
 echo ' | | | |___ ___ _| |  _  |___ ___ ___ ___   | __  |_ _|_| |_| |___ ___  '
 echo ' | | | | . |  _| . |   __|  _| -_|_ -|_ -|  | __ -| | | | | . | -_|  _| '
@@ -62,7 +60,7 @@ mkdir html; cd html
 
 # Build our theme from a framework? 
 echo "What theme framework would you like to use?"
-read -p "Options: [_s, startbox, starkers, html5, bones, a7, custom, none]" config_values["framework"]
+read -p "Options: [_s, startbox, starkers, html5, bones, custom, none]" config_values["framework"]
 
 # Init git repo and do an empty initial commit (for rebasing, thanks @evansolomon)
 git init
@@ -100,7 +98,7 @@ elif [ ${config_values["framework"]} == "bones" ]; then
 elif [ ${config_values["framework"]} == "roots" ]; then
 	framework_repo="git://github.com/retlehs/roots.git"
 elif [ ${config_values["framework"]} == "a7" ]; then
-  framework_repo="git://github.com/AaronHolbrook/a7_start.git"	
+  framework_repo="git://github.com/AaronHolbrook/a7_start.git"
 elif [ ${config_values["framework"]} == "custom" ]; then
   read -p "Location for custom theme: [can be git:// protocol or just a local git repository]" config_values["framework_custom"]
 elif [ ${config_values["framework"]} == "none" ]; then
