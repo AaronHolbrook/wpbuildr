@@ -97,8 +97,9 @@ elif [ ${config_values["framework"]} == "bones" ]; then
 	framework_repo="git://github.com/eddiemachado/bones.git"
 elif [ ${config_values["framework"]} == "roots" ]; then
 	framework_repo="git://github.com/retlehs/roots.git"
-elif [ ${config_values["framework"]} == "a7" ]; then
-  framework_repo="git://github.com/AaronHolbrook/a7_start.git"
+# A7 Framework is not published yet	
+#elif [ ${config_values["framework"]} == "a7" ]; then
+#  framework_repo="git://github.com/AaronHolbrook/a7_start.git"
 elif [ ${config_values["framework"]} == "custom" ]; then
   read -p "Location for custom theme: [can be git:// protocol or just a local git repository]" config_values["framework_custom"]
 elif [ ${config_values["framework"]} == "none" ]; then
@@ -274,7 +275,8 @@ git add .
 git commit -am "wp-config & wp-config.local created!"
 
 # create local database
-/Applications/MAMP/Library/bin/mysql -uroot -proot -e "CREATE DATABASE $1"
+/Applications/MAMP/Library/bin/mysql1 -uroot -proot -e "CREATE DATABASE $1"
+
 
 echo ''
 echo '                     _                                                             __'

@@ -18,6 +18,8 @@ This script aims to automate as much of the process as possible.
 Requirements
 ===========
 
+* Mac OS X >= 10.5
+* MAMP
 * `Bash` >= 3.2
 * `wget` (does not come pre-installed, you must download/install via HomeBrew or some other way)
 
