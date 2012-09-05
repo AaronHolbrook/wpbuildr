@@ -39,20 +39,20 @@ dir=`dirname $0`
 
 # See if there's a config file, if not offer to create one based on the options the 
 # user chooses during the setup
-if [ ! -e "$dir/conf/config.conf" ]; then
-	read -p 'Would you like to save your config for next time? [Y/n]' response
-	if [[ $response =~ ^([nN][oO]|[nN])$ ]]
-		then
-				config="NO"
-		else
-		    config='YES'
-		    declare -a config_values
-		    touch $dir/config.conf
-	fi
-	# Cool there's already a config file, so let's use those defaults!
-	else
-		echo "Detected a config file, using those defaults."
-fi
+# if [ ! -e "$dir/conf/config.conf" ]; then
+# 	read -p 'Would you like to save your config for next time? [Y/n]' response
+# 	if [[ $response =~ ^([nN][oO]|[nN])$ ]]
+# 		then
+# 				config="NO"
+# 		else
+# 		    config='YES'
+# 		    declare -a config_values
+# 		    touch $dir/config.conf
+# 	fi
+# 	# Cool there's already a config file, so let's use those defaults!
+# 	else
+# 		echo "Detected a config file, using those defaults."
+# fi
 
 
 # Create html directory (todo: customizable structure)
