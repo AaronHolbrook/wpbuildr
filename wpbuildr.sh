@@ -275,7 +275,7 @@ git add .
 git commit -am "wp-config & wp-config.local created!"
 
 # create local database
-/Applications/MAMP/Library/bin/mysql1 -uroot -proot -e "CREATE DATABASE $1"
+/Applications/MAMP/Library/bin/mysql -uroot -proot -e "CREATE DATABASE $1"
 
 
 echo ''
