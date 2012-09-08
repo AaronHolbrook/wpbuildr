@@ -28,9 +28,9 @@ Running
 
 Place the folder within your Bash path (`/usr/local/sbin/`, `/usr/local/`) or add it to your Bash profile path.
 
-Via the command line, navigate to your desired placement of your new WordPress install, simply run `wpbuildr.sh`. 
+Via the command line, navigate to your desired placement of your new WordPress install, simply run `wpbuildr`. 
 
-`wpbuildr.sh` accepts one argument at the command line, which is the intended name of your project. This argument is used to create the database name, theme folder and the table prefix.
+`wpbuildr` accepts one argument at the command line, which is the intended name of your project. This argument is used to create the database name, theme folder and the table prefix.
 
 Customizing Plugins
 ===================
