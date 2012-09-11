@@ -24,15 +24,6 @@ echo '          @aaronjholbrook | http://a7web.com | aaron@a7web.com          '
 echo '------------------------------------------------------------------------'
 echo " "
 
-
-# create the html for site-root (to mimic MT, possibly look at allowing other structures)
-# if html dir exists, exit - let's not break anything!
-if [ -d "html" ]; then
-	echo "Oops, looks like you already have an html directory here!"
-	echo "exiting..."
-	exit
-fi
-
 # Set path of script for our library files
 dir=`dirname $0`
 
@@ -55,12 +46,25 @@ dir=`dirname $0`
 # fi
 
 
-# Create html directory (todo: customizable structure)
-mkdir html; cd html
-
 # Build our theme from a framework? 
 echo "What theme framework would you like to use?"
 read -p "Options: [_s, startbox, starkers, html5, bones, custom, none]" config_values["framework"]
+
+# create the html for site-root (to mimic MT, possibly look at allowing other structures)
+# if html dir exists, exit - let's not break anything!
+if [ -d "html" ]; then
+	echo "Oops, looks like you already have an html directory here!"
+	read -p "Would you like to replace the existing HTML directory? (Note: all current files will be lost) [Y/N]" config_values["replace"]
+	if [ ${config_values["replace"]} == "Y" ]; then
+  		rm -rf html/*;
+  	else
+  		echo "Exiting, please run in another directory, thanks."
+  		exit
+  	fi
+fi
+
+# Create html directory (todo: customizable structure)
+mkdir html; cd html
 
 # Init git repo and do an empty initial commit (for rebasing, thanks @evansolomon)
 git init
