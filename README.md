@@ -32,6 +32,8 @@ Via the command line, navigate to your desired placement of your new WordPress i
 
 `wpbuildr` accepts one argument at the command line, which is the intended name of your project. This argument is used to create the database name, theme folder and the table prefix.
 
+Enjoy your new WordPress install!
+
 Customizing Plugins
 ===================
 
