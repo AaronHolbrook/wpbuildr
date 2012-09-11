@@ -1,6 +1,6 @@
-===================================================
+====================================================
 WordPress Builder is licensed under the MIT License
-===================================================
+====================================================
 
 Copyright (C) 2012 A7 Web Design (https://github.com/AaronHolbrook/WordPress-Builder)
 
