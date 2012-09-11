@@ -27,6 +27,13 @@ echo " "
 # Set path of script for our library files
 dir=`dirname $0`
 
+# create the html for site-root (to mimic MT, possibly look at allowing other structures)
+# if html dir exists, exit - let's not break anything!
+if [ -d "html" ]; then
+	echo "Oops, looks like you already have an html directory here! To protect your files, WP Buildr will now quit. If you meant to run it here, just rename your existing html folder, and it will run."  	
+	echo "exiting..."  	
+	exit
+fi
 
 # See if there's a config file, if not offer to create one based on the options the 
 # user chooses during the setup
@@ -45,23 +52,10 @@ dir=`dirname $0`
 # 		echo "Detected a config file, using those defaults."
 # fi
 
-
 # Build our theme from a framework? 
 echo "What theme framework would you like to use?"
 read -p "Options: [_s, startbox, starkers, html5, bones, custom, none]" config_values["framework"]
 
-# create the html for site-root (to mimic MT, possibly look at allowing other structures)
-# if html dir exists, exit - let's not break anything!
-if [ -d "html" ]; then
-	echo "Oops, looks like you already have an html directory here!"
-	read -p "Would you like to replace the existing HTML directory? (Note: all current files will be lost) [Y/N]" config_values["replace"]
-	if [ ${config_values["replace"]} == "Y" ]; then
-  		rm -rf html/*;
-  	else
-  		echo "Exiting, please run in another directory, thanks."
-  		exit
-  	fi
-fi
 
 # Create html directory (todo: customizable structure)
 mkdir html; cd html
