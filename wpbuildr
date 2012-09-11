@@ -24,6 +24,13 @@ echo '          @aaronjholbrook | http://a7web.com | aaron@a7web.com          '
 echo '------------------------------------------------------------------------'
 echo " "
 
+
+if [ ! $1 ]; then
+	read -p "Give your project a name: " config_values["project_name"]
+else
+	config_values["project_name"] = $1
+fi
+
 # Set path of script for our library files
 dir=`dirname $0`
 
@@ -53,9 +60,10 @@ fi
 # fi
 
 # Build our theme from a framework? 
-echo "What theme framework would you like to use?"
-read -p "Options: [_s, startbox, starkers, html5, bones, custom, none]" config_values["framework"]
-
+if [ ! $2 ]; then
+	echo "What theme framework would you like to use?"
+	read -p "Options: [_s, startbox, starkers, html5, bones, custom, none]" config_values["framework"]
+fi
 
 # Create html directory (todo: customizable structure)
 mkdir html; cd html
@@ -107,7 +115,7 @@ fi
 # if the user did not choose none, then add the theme to our themes folder
 if [ $framework_repo != "none" ]; then
 	# clone the repo into our new base directory
-	git clone $framework_repo "wp-content/themes/"$1
+	git clone $framework_repo "wp-content/themes/"${config_values["project_name"]}
 
 	# let's clear out one of the pre-packaged themes
 	rm -rf wp-content/themes/twentyten
@@ -251,7 +259,7 @@ rm wp-config-sample.php
 
 # define wp-config.local
 echo "<?php
-define('DB_NAME', '$1');
+define('DB_NAME', '${config_values["project_name"]}');
 /** MySQL database username */
 define('DB_USER', 'root');
 /** MySQL database password */
@@ -265,7 +273,7 @@ define('WP_DEBUG', true);
 // Save queries
 define('SAVEQUERIES', true);
 
-\$table_prefix  = 'wp_$1_'; 
+\$table_prefix  = 'wp_${config_values["project_name"]}_'; 
 ?>" > wp-config.local.php
 
 # cool, wp-config(s) has been created, let's commit!
@@ -273,7 +281,7 @@ git add .
 git commit -am "wp-config & wp-config.local created!"
 
 # create local database
-/Applications/MAMP/Library/bin/mysql -uroot -proot -e "CREATE DATABASE $1"
+/Applications/MAMP/Library/bin/mysql -uroot -proot -e "CREATE DATABASE ${config_values["project_name"]}"
 
 
 echo ''
