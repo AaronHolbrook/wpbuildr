@@ -8,9 +8,8 @@
 # Additionally, this script is meant to help with multi-environment deployment
 # using Aaron Holbrook's WordPress/Git deployment model (http://aaronjholbrook.com/?=310)
 #
-# Created by Aaron Holbrook aaron@a7web.com
-# props to WordPress!
-#
+# Created by Aaron Holbrook (@aaronjholbrook)
+# Thanks to Brad Parbs (@bradparbs)
 
 clear
 echo ""
