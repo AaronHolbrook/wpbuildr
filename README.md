@@ -37,4 +37,4 @@ Enjoy your new WordPress install!
 Customizing Plugins
 ===================
 
-Simply add the slug of the plugins you wish WordPress Builder to install to the `conf/plugins.conf` file!
+Simply add the slug of the plugins you want WPBuildr to install to the `conf/plugins.conf` file!
