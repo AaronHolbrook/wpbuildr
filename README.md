@@ -1,7 +1,7 @@
-WordPress Builder
+WPBuildr
 =================
 
-WordPress Builder automates the set up a WordPress install complete with theme framework of your choice, a git repository with an empty initial commit (for easy rebasing), plugins of your choice, database creation and creation of wp-config file complete with unique RSA salts.
+WPBuildr automates the set up a WordPress install complete with theme framework of your choice, a git repository with an empty initial commit (for easy rebasing), plugins of your choice, database creation and creation of wp-config file complete with unique RSA salts.
 
 Who it's for
 ============
