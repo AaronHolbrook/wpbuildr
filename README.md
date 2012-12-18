@@ -6,14 +6,19 @@ WPBuildr automates the set up a WordPress install complete with theme framework 
 Who it's for
 ============
 
-This is primarily for developers that need to set up WordPress installations quite frequently and have gotten annoyed at:
+This is primarily for developers that need to set up WordPress installations quite frequently and have gotten annoyed at spending time on automatable actions.
 
-* Downloading and extracting WordPress
-* Inputting DB information
-* Installing/copying your starter theme or framework
-* Downloading or installing your development plugins
 
-This script aims to automate as much of the process as possible.
+What it automates
+============
+
+* Downloads and extracts WordPress
+* Configures DB information
+* Installs or copies your starter theme or framework
+* Removes the Hello, Dolly plugin
+* Downloads or installs your favorite development plugins
+* Sets up a git repository, with commits during all stages of installation
+
 
 Requirements
 ===========
@@ -32,9 +37,11 @@ Via the command line, navigate to your desired placement of your new WordPress i
 
 `wpbuildr` accepts one argument at the command line, which is the intended name of your project. This argument is used to create the database name, theme folder and the table prefix.
 
+Example usage: `$ wpbuildr mywwpinstall` would create a database and theme folder named 'mywpinstall'
+
 Enjoy your new WordPress install!
 
 Customizing Plugins
 ===================
 
-Simply add the slug of the plugins you want WPBuildr to install to the `conf/plugins.conf` file!
+Simply add or remove the slug of the plugins you want WPBuildr to install to the `conf/plugins.conf` file!
