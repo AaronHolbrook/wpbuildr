@@ -86,7 +86,7 @@ rm readme.html
 
 # We succesfully added WordPress, so let's commit!
 git add .
-git commit -am "WordPress installed!"
+git commit -am "Installed WordPress core files."
 
 
 # Use framework option
@@ -277,7 +277,7 @@ define('SAVEQUERIES', true);
 
 # cool, wp-config(s) has been created, let's commit!
 git add .
-git commit -am "wp-config & wp-config.local created!"
+git commit -am "Created wp-config & wp-config.local."
 
 # create local database
 /Applications/MAMP/Library/bin/mysql -uroot -proot -e "CREATE DATABASE ${config_values["project_name"]}"
