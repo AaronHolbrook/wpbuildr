@@ -23,8 +23,6 @@ echo '          @aaronjholbrook | http://a7web.com | aaron@a7web.com          '
 echo '------------------------------------------------------------------------'
 echo " "
 
-declare -a config_values=(project_name framework framework_custom)
-
 if [ ! $1 ]; then
 	read -p "Give your project a name: " project
 else
