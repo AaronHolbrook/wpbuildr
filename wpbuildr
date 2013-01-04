@@ -24,11 +24,12 @@ echo '          @aaronjholbrook | http://a7web.com | aaron@a7web.com          '
 echo '------------------------------------------------------------------------'
 echo " "
 
+declare -a config_values=(project_name framework framework_custom)
 
 if [ ! $1 ]; then
-	read -p "Give your project a name: " config_values["project_name"]
+	read -p "Give your project a name: " project
 else
-	config_values["project_name"] = $1
+	project = $1
 fi
 
 # Set path of script for our library files
@@ -37,7 +38,7 @@ dir=`dirname $0`
 # create the html for site-root (to mimic MT, possibly look at allowing other structures)
 # if html dir exists, exit - let's not break anything!
 if [ -d "html" ]; then
-	echo "Oops, looks like you already have an html directory here! To protect your files, WP Buildr will now quit. If you meant to run it here, just rename your existing html folder, and it will run."  	
+	echo "Oops, looks like you already have an html directory here! To protect your files, WP Buildr will now quit. If you meant to run it here, just rename/remove your existing html folder, and it will run."  	
 	echo "exiting..."  	
 	exit
 fi
@@ -62,8 +63,9 @@ fi
 # Build our theme from a framework? 
 if [ ! $2 ]; then
 	echo "What theme framework would you like to use?"
-	read -p "Options: [_s, startbox, starkers, html5, bones, custom, none]" config_values["framework"]
+	read -p "Options: [_s, startbox, starkers, html5, bones, custom, none]" framework
 fi
+
 
 # Create html directory (todo: customizable structure)
 mkdir html; cd html
@@ -91,31 +93,31 @@ git commit -am "WordPress installed!"
 
 
 # Use framework option
-if [ ${config_values["framework"]} == "_s" ]; then
+if [ $framework == "_s" ]; then
   framework_repo="git://github.com/Automattic/_s.git"
-elif [ ${config_values["framework"]} == "startbox" ]; then
+elif [ $framework == "startbox" ]; then
 	framework_repo="git://github.com/brichards/StartBox.git"  
-elif [ ${config_values["framework"]} == "starkers" ]; then
+elif [ $framework == "starkers" ]; then
 	framework_repo="git://github.com/viewportindustries/starkers.git"
-elif [ ${config_values["framework"]} == "html5"]; then
+elif [ $framework == "html5"]; then
 	framework_repo="git://github.com/murtaugh/HTML5-Reset-Wordpress-Theme.git"  
-elif [ ${config_values["framework"]} == "bones" ]; then
+elif [ $framework == "bones" ]; then
 	framework_repo="git://github.com/eddiemachado/bones.git"
-elif [ ${config_values["framework"]} == "roots" ]; then
+elif [ $framework == "roots" ]; then
 	framework_repo="git://github.com/retlehs/roots.git"
 # A7 Framework is not published yet	
 #elif [ ${config_values["framework"]} == "a7" ]; then
 #  framework_repo="git://github.com/AaronHolbrook/a7_start.git"
-elif [ ${config_values["framework"]} == "custom" ]; then
-  read -p "Location for custom theme: [can be git:// protocol or just a local git repository]" config_values["framework_custom"]
-elif [ ${config_values["framework"]} == "none" ]; then
+elif [ $framework == "custom" ]; then
+  read -p "Location for custom theme: [can be git:// protocol or just a local git repository]" framework_custom
+elif [ $framework == "none" ]; then
 	framework_repo="none"
 fi
 
 # if the user did not choose none, then add the theme to our themes folder
 if [ $framework_repo != "none" ]; then
 	# clone the repo into our new base directory
-	git clone $framework_repo "wp-content/themes/"${config_values["project_name"]}
+	git clone $framework_repo "wp-content/themes/"$project
 
 	# let's clear out one of the pre-packaged themes
 	rm -rf wp-content/themes/twentyten
@@ -259,7 +261,7 @@ rm wp-config-sample.php
 
 # define wp-config.local
 echo "<?php
-define('DB_NAME', '${config_values["project_name"]}');
+define('DB_NAME', '$project');
 /** MySQL database username */
 define('DB_USER', 'root');
 /** MySQL database password */
@@ -273,7 +275,7 @@ define('WP_DEBUG', true);
 // Save queries
 define('SAVEQUERIES', true);
 
-\$table_prefix  = 'wp_${config_values["project_name"]}_'; 
+\$table_prefix  = 'wp_"$project"_'; 
 ?>" > wp-config.local.php
 
 # cool, wp-config(s) has been created, let's commit!
@@ -281,7 +283,7 @@ git add .
 git commit -am "wp-config & wp-config.local created!"
 
 # create local database
-/Applications/MAMP/Library/bin/mysql -uroot -proot -e "CREATE DATABASE ${config_values["project_name"]}"
+/Applications/MAMP/Library/bin/mysql -uroot -proot -e "CREATE DATABASE $project"
 
 
 echo ''
