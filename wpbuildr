@@ -150,6 +150,7 @@ if [ "$framework_repo" != "none" ]; then
 
 	# let's clear out one of the pre-packaged themes
 	rm -rf wp-content/themes/twentyten
+	rm -rf wp-content/themes/twentyeleven
 fi
 
 
