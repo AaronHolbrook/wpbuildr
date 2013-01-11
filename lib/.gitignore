@@ -1,8 +1,5 @@
 .htaccess
-wp-*.php
-xmlrpc.php
-wp-admin/
-wp-includes/
+nginx.conf
 wp-content/uploads/
 wp-content/blogs.dir/
 wp-content/upgrade/*
