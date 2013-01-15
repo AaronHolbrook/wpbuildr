@@ -148,7 +148,10 @@ if [ "$framework_repo" != "none" ]; then
 	# clone the repo into our new base directory
 	git clone -q "$framework_repo" "wp-content/themes/"$project
 
-	# let's clear out one of the pre-packaged themes
+	# delete the git repo that the theme came with
+	rm -rf wp-content/themes/$project/.git
+
+	# let's clear out some of the pre-packaged themes
 	rm -rf wp-content/themes/twentyten
 	rm -rf wp-content/themes/twentyeleven
 fi
