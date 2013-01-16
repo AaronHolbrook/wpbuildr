@@ -1,5 +1,6 @@
 .htaccess
 nginx.conf
+wp-config.local.php
 wp-content/uploads/
 wp-content/blogs.dir/
 wp-content/upgrade/*
