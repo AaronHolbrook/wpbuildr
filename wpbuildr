@@ -61,7 +61,7 @@ fi
 # Build our theme from a framework? 
 if [ ! $2 ]; then
 	echo "What theme framework would you like to use?"
-	read -p "Options: [_s, startbox, starkers, html5, bones, custom, none]" config_values["framework"]
+	read -p "Options: [_s, startbox, starkers, html5, bones, custom, none] " config_values["framework"]
 fi
 
 # Create html directory (todo: customizable structure)
