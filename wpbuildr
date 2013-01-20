@@ -94,6 +94,7 @@ cat "$dir/lib/.gitignore" > .gitignore
 
 
 # download wordpress, extract and delete original tar
+curl -H "Accept-Encoding: gzip,deflate" http://wordpress.org/latest.tar.gz > latest.tar.gz
 wget http://wordpress.org/latest.tar.gz
 tar --strip-components=1 -zxf latest.tar.gz
 rm latest.tar.gz
@@ -154,6 +155,7 @@ if [ "$framework_repo" != "none" ]; then
 	# let's clear out some of the pre-packaged themes
 	rm -rf wp-content/themes/twentyten
 	rm -rf wp-content/themes/twentyeleven
+	rm -rf wp-content/themes/twentytwelve
 fi
 
 
@@ -179,7 +181,7 @@ rm hello.php
 for plugin in `cat $dir/conf/plugins.conf`; do
 	echo "Installing: $plugin..."
 	mkdir $plugin; cd $plugin
-	wget -q http://downloads.wordpress.org/plugin/$plugin.zip
+	curl -H "Accept-Encoding: gzip,deflate" http://downloads.wordpress.org/plugin/$plugin.zip > $plugin.zip
 	tar --strip-components=1 -zxf $plugin.zip
 	rm $plugin.zip
 	cd ..
