@@ -26,7 +26,6 @@ Requirements
 * Mac OS X >= 10.5
 * MAMP
 * `Bash` >= 3.2
-* `wget` (does not come pre-installed, you must download/install via HomeBrew or some other way)
 
 Running
 =======
