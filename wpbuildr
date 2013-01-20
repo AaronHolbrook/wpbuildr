@@ -98,6 +98,7 @@ curl -H "Accept-Encoding: gzip,deflate" http://wordpress.org/latest.tar.gz > lat
 wget http://wordpress.org/latest.tar.gz
 tar --strip-components=1 -zxf latest.tar.gz
 rm latest.tar.gz
+rm latest.tar.gz.1
 rm license.txt
 rm readme.html
 
