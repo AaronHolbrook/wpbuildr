@@ -323,8 +323,7 @@ define('WP_DEBUG', true);
 // Save queries
 define('SAVEQUERIES', true);
 
-\$table_prefix  = 'wp_"$project"_'; 
-?>" > wp-config.local.php
+\$table_prefix  = 'wp_"$project"_';" > wp-config.local.php
 
 
 # cool, wp-config(s) has been created, let's commit!
