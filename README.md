@@ -25,7 +25,7 @@ Requirements
 
 * Mac OS X >= 10.5
 * MAMP
-* `Bash` >= 3.2
+* `Bash` >= 3.2 (Comes pre-installed on most Mac Operating Systems)
 
 Running
 =======
