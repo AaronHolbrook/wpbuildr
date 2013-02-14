@@ -9,26 +9,50 @@
 # using Aaron Holbrook's WordPress/Git deployment model (http://aaronjholbrook.com/?=310)
 #
 # Created by Aaron Holbrook (@aaronjholbrook)
-# Thanks to Brad Parbs (@bradparbs)
+# Thanks to tester Brad Parbs (@bradparbs) and Brian Richards (@rzen) for the ASCII Logo
+
 
 clear
-echo ""
-echo "                 Welcome to Aaron Holbrook's WPBuildr!                  "
-echo '  _ _ _           _ _____                    _____     _ _   _          '
-echo ' | | | |___ ___ _| |  _  |___ ___ ___ ___   | __  |_ _|_| |_| | ___     '
-echo ' | | | | . |  _| . |   __|  _| -_|_ -|_ -|  | __ -| | | | | . ||  _|    '
-echo ' |_____|___|_| |___|__|  |_| |___|___|___|  |_____|___|_|_|___||_|      '
-echo '                                                                        '
-echo '          @aaronjholbrook | http://a7web.com | aaron@a7web.com          '
-echo '------------------------------------------------------------------------'
-echo " "
+echo '
+                            `-/+osssssssssssso+/-`
+                        ./oys                    syo/.
+                     .+ys:   ..:/osyyhhhhyyso/:..   +sy+.
+                   /ys:  .+ydmmmmmmmmmmmmmmmmmmmdy+.   :sy/
+                 /h+`  -odmmmmmmmmmmmmmmmmmmmmmmmmmmdo-  `+h/
+               :ho`  /hmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmds/   `oh:
+             `sy.  /hmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm+        .ys`
+            .ho  /mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmy           oh.
+           .h+          `mmmmmmmm`         `mmmmmmmh            +h.
+          `ho  `       /mmmmmmmmmmo       .dmmmmmmmms        ~~  oh`
+          oy  .h`       ymmmmmmmmmm:       /mmmmmmmmmy`      -d.  yo
+         .d-  ymy       `dmmmmmmmmmd.       ymmmmmmmmmh`     /my  -d.
+         oy  -mmm+       /mmmmmmmmmmy       .dmmmmmmmmmy     ymm-  yo
+         h+  +mmmd-       smmmmmmmmmm+       /mmmmmmmmmm-   :mmm+  +h
+         d/  smmmmh`      `dmmmmmmmmmd`       smmmmmmmmm:  `dmmms  /d
+         d/  smmmmms       :mmmmmmmmm+        `dmmmmmmmd.  smmmms  /d
+         h+  +mmmmmm/       smmmmmmmh  +       /mmmmmmmy  /mmmmm+  +h
+         oy  -mmmmmmd.      `dmmmmmd- +m/       smmmmmd. .dmmmmm-  yo
+         .d-  ymmmmmmh       :mmmmm+ .dmd-      `dmmmm/  ymmmmmy  -d.
+          oy  .dmmmmmmo       smmmh  hmmmh`      :mmmy  +mmmmmd.  yo
+          `ho  -dmmmmmd:      `dmd+ .mmmmms       smd- .dmmmmd-  oh`
+           .h+  -dmmmmmd`      :m+  dmmmmmm:      `do  hmmmmd-  +h.
+            .ho  .ymmmmmy       +  hmmmmmmmd.      :` ommmmy.  oh.
+             `sy.  /hmmmm+        ommmmmmmmmy        -dmmh/  .ys`
+               :ho   /hmmd-      :mmmmmmmmmmmo      `hmh/   oh:
+                 /h+   -odh`    `dmmmmmmmmmmmd:     oo-   +h/
+                   /ys:   ~~    smmmmmmmmmmmmmd`       :sy/
+                     .+ys      `/osyyhhhhyyso/:`   ./sy+.
+                        ./oys+                  +syo/.
+                            `-/+osssssssssssso+/-`
+
+'
 
 # create the html for site-root (to mimic MT, possibly look at allowing other structures)
 # if html dir exists, exit - let's not break anything!
 if [ -d "html" ]; then
-	echo "Oops, looks like you already have an html directory here! To protect your files, WP Buildr will now quit. If you meant to run it here, just rename/remove your existing html folder, and it will run."  	
-	echo "exiting..."  	
-	exit
+  echo "Oops, looks like you already have an html directory here! To protect your files, WP Buildr will now quit. If you meant to run it here, just rename/remove your existing html folder, and it will run."    
+  echo "exiting..."   
+  exit
 fi
 
 
@@ -42,33 +66,33 @@ dir=`dirname $0`
 # theme name
 # table prefixes
 if [ ! $1 ]; then
-	read -p "Give your project a name: " project
+  read -p "Give your project a name: " project
 else
-	project=$1
+  project=$1
 fi
 
 
 # See if there's a config file, if not offer to create one based on the options the 
 # user chooses during the setup
 # if [ ! -e "$dir/conf/config.conf" ]; then
-# 	read -p 'Would you like to save your config for next time? [Y/n]' response
-# 	if [[ $response =~ ^([nN][oO]|[nN])$ ]]
-# 		then
-# 				config="NO"
-# 		else
-# 		    config='YES'
-# 		    declare -a config_values
-# 		    touch $dir/config.conf
-# 	fi
-# 	# Cool there's already a config file, so let's use those defaults!
-# 	else
-# 		echo "Detected a config file, using those defaults."
+#   read -p 'Would you like to save your config for next time? [Y/n]' response
+#   if [[ $response =~ ^([nN][oO]|[nN])$ ]]
+#     then
+#         config="NO"
+#     else
+#         config='YES'
+#         declare -a config_values
+#         touch $dir/config.conf
+#   fi
+#   # Cool there's already a config file, so let's use those defaults!
+#   else
+#     echo "Detected a config file, using those defaults."
 # fi
 
 # Build our theme from a framework? 
 if [ ! $2 ]; then
-	echo "What theme framework would you like to use?"
-	read -p "Options: [blueox, _s, startbox, starkers, html5, bones, custom, none]: " framework
+  echo "What theme framework would you like to use?"
+  read -p "Options: [blueox, _s, startbox, starkers, html5, bones, custom, none]: " framework
 fi
 
 
@@ -116,27 +140,27 @@ git commit -q -m "Installed WordPress core files."
 
 # Use framework option
 if [ "$framework" == "none" ] || [ "$framework" == "" ]; then
-	framework_repo="none"
+  framework_repo="none"
 elif [ "$framework" == "blueox" ]; then
-	framework_repo="git://github.com/AaronHolbrook/Blue-Ox.git"  
+  framework_repo="git://github.com/AaronHolbrook/Blue-Ox.git"  
 elif [ "$framework" == "_s" ]; then
   framework_repo="git://github.com/Automattic/_s.git"
 elif [ "$framework" == "starkers" ]; then
-	framework_repo="git://github.com/viewportindustries/starkers.git"
+  framework_repo="git://github.com/viewportindustries/starkers.git"
 elif [ "$framework" == "html5" ]; then
-	framework_repo="git://github.com/murtaugh/HTML5-Reset-Wordpress-Theme.git"  
+  framework_repo="git://github.com/murtaugh/HTML5-Reset-Wordpress-Theme.git"  
 elif [ "$framework" == "startbox" ]; then
-	framework_repo="git://github.com/brichards/StartBox.git"  
+  framework_repo="git://github.com/brichards/StartBox.git"  
 elif [ "$framework" == "bones" ]; then
-	framework_repo="git://github.com/eddiemachado/bones.git"
+  framework_repo="git://github.com/eddiemachado/bones.git"
 elif [ "$framework" == "roots" ]; then
-	framework_repo="git://github.com/retlehs/roots.git"
+  framework_repo="git://github.com/retlehs/roots.git"
 elif [ "$framework" == "custom" ]; then
   read -p "Location for custom theme: [can be git:// protocol or just a local git repository]: " framework_repo
 fi
 
 
-	
+  
 echo '------------------------------------------------------------------------'
 echo '---> DOWNLOADING THEME'
 echo '------------------------------------------------------------------------'
@@ -145,16 +169,16 @@ echo ''
 
 # if the user did not choose none, then add the theme to our themes folder
 if [ "$framework_repo" != "none" ]; then
-	# clone the repo into our new base directory
-	git clone -q "$framework_repo" "wp-content/themes/"$project
+  # clone the repo into our new base directory
+  git clone -q "$framework_repo" "wp-content/themes/"$project
 
-	# delete the git repo that the theme came with
-	rm -rf wp-content/themes/$project/.git
+  # delete the git repo that the theme came with
+  rm -rf wp-content/themes/$project/.git
 
-	# let's clear out some of the pre-packaged themes
-	rm -rf wp-content/themes/twentyten
-	rm -rf wp-content/themes/twentyeleven
-	rm -rf wp-content/themes/twentytwelve
+  # let's clear out some of the pre-packaged themes
+  rm -rf wp-content/themes/twentyten
+  rm -rf wp-content/themes/twentyeleven
+  rm -rf wp-content/themes/twentytwelve
 fi
 
 
@@ -178,12 +202,12 @@ rm hello.php
 # To add your/modify the plugins that are installed simply
 # Change the plugins file to contain the slug of the plugins you want! 
 for plugin in `cat $dir/conf/plugins.conf`; do
-	echo "Installing: $plugin..."
-	mkdir $plugin; cd $plugin
-	curl -H "Accept-Encoding: gzip,deflate" http://downloads.wordpress.org/plugin/$plugin.zip > $plugin.zip
-	tar --strip-components=1 -zxf $plugin.zip
-	rm $plugin.zip
-	cd ..
+  echo "Installing: $plugin..."
+  mkdir $plugin; cd $plugin
+  curl -H "Accept-Encoding: gzip,deflate" http://downloads.wordpress.org/plugin/$plugin.zip > $plugin.zip
+  tar --strip-components=1 -zxf $plugin.zip
+  rm $plugin.zip
+  cd ..
 done
 
 
@@ -198,15 +222,15 @@ echo "<?php // mu-plugins/load.php" > load.php;
 # To add your/modify the plugins that are installed simply
 # Change the plugins file to contain the slug of the plugins you want! 
 for plugin in `cat $dir/conf/mu-plugins.conf`; do
-	echo "Installing: $plugin..."
-	mkdir $plugin; cd $plugin
-	curl -H "Accept-Encoding: gzip,deflate" http://downloads.wordpress.org/plugin/$plugin.zip > $plugin.zip
-	tar --strip-components=1 -zxf $plugin.zip
-	rm $plugin.zip
+  echo "Installing: $plugin..."
+  mkdir $plugin; cd $plugin
+  curl -H "Accept-Encoding: gzip,deflate" http://downloads.wordpress.org/plugin/$plugin.zip > $plugin.zip
+  tar --strip-components=1 -zxf $plugin.zip
+  rm $plugin.zip
 
-	# Create a loader for the plugin (mu-plugins does not look in subdirectories)
-	cd ..
-	echo "require WPMU_PLUGIN_DIR . '/$plugin/$plugin.php';" >> load.php
+  # Create a loader for the plugin (mu-plugins does not look in subdirectories)
+  cd ..
+  echo "require WPMU_PLUGIN_DIR . '/$plugin/$plugin.php';" >> load.php
 done
 
 
@@ -245,40 +269,40 @@ if ( file_exists( dirname( __FILE__ ) . '/wp-config.local.php' ) ) {
 } 
 else {
 
-	// ** MySQL settings - You can get this info from your web host ** //
-	/** The name of the database for WordPress */
-	define('DB_NAME', '');
+  // ** MySQL settings - You can get this info from your web host ** //
+  /** The name of the database for WordPress */
+  define('DB_NAME', '');
 
-	/** MySQL database username */
-	define('DB_USER', '');
+  /** MySQL database username */
+  define('DB_USER', '');
 
-	/** MySQL database password */
-	define('DB_PASSWORD', '');
+  /** MySQL database password */
+  define('DB_PASSWORD', '');
 
-	/** MySQL hostname */
-	define('DB_HOST', '');
-	
-	define('WP_CACHE', true);
+  /** MySQL hostname */
+  define('DB_HOST', '');
+  
+  define('WP_CACHE', true);
 
 
-	/**
-	 * For developers: WordPress debugging mode.
-	 *
-	 * Change this to true to enable the display of notices during development.
-	 * It is strongly recommended that plugin and theme developers use WP_DEBUG
-	 * in their development environments.
-	 */
-	define('WP_DEBUG', false);
+  /**
+   * For developers: WordPress debugging mode.
+   *
+   * Change this to true to enable the display of notices during development.
+   * It is strongly recommended that plugin and theme developers use WP_DEBUG
+   * in their development environments.
+   */
+  define('WP_DEBUG', false);
 
-	define('SAVEQUERIES', true);
+  define('SAVEQUERIES', true);
 
-	/**
-	 * WordPress Database Table prefix.
-	 *
-	 * You can have multiple installations in one database if you give each a unique
-	 * prefix. Only numbers, letters, and underscores please!
-	 */
-	\$table_prefix  = 'wp_${config_values["project_name"]}_'; 
+  /**
+   * WordPress Database Table prefix.
+   *
+   * You can have multiple installations in one database if you give each a unique
+   * prefix. Only numbers, letters, and underscores please!
+   */
+  \$table_prefix  = 'wp_${config_values["project_name"]}_'; 
 
 }
 
@@ -321,7 +345,7 @@ define('WPLANG', '');
 
 /** Absolute path to the WordPress directory. */
 if ( !defined('ABSPATH') )
-	define('ABSPATH', dirname(__FILE__) . '/');
+  define('ABSPATH', dirname(__FILE__) . '/');
 
 /** Sets up WordPress vars and included files. */
 require_once(ABSPATH . 'wp-settings.php');" >> wp-config.php
@@ -369,16 +393,16 @@ echo '------------------------------------------------------------------------'
 echo ''
 
 
-echo '-------------------------------------------------------------------------------------'
-echo '                     _                                                             __'
-echo '   __  ______  __  _( )________     ____ __      _____  _________  ____ ___  ___  / /'
-echo '  / / / / __ \/ / / /// ___/ _ \   / __ `/ | /| / / _ \/ ___/ __ \/ __ `__ \/ _ \/ / '
-echo ' / /_/ / /_/ / /_/ / / /  /  __/  / /_/ /| |/ |/ /  __(__  ) /_/ / / / / / /  __/_/  '
-echo ' \__, /\____/\__,_/ /_/   \___/   \__,_/ |__/|__/\___/____/\____/_/ /_/ /_/\___(_)   '
-echo '/____/                                                                               '
-echo ''
-echo "If you found this useful I'd love to know! Hit me up at @aaronjholbrook"
-echo "You're all done, now go drink a beer!"
+echo ""
+echo '   '
+echo '                    __          _ __    __    '
+echo '    _      ______  / /_  __  __(_) /___/ /____'
+echo '   | | /| / / __ \/ __ \/ / / / / / __  / ___/'
+echo '   | |/ |/ / /_/ / /_/ / /_/ / / / /_/ / /    '
+echo '   |__/|__/ .___/_.___/\__,_/_/_/\__,_/_/     '
+echo '         /_/                                  '
+echo '   '
+echo "Thanks for using wpbuildr by @aaronjholbrook"
 
 
 echo ''
