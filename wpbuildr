@@ -1,5 +1,7 @@
 #!/bin/bash
 #
+# wpbuildr by Aaron Holbrook (aaronjholbrook)
+# 
 # This script was created to cut down on the amount of time it takes
 # to get a local install of WordPress up and running by automating the
 # things we do over and over: download WordPress, create a database, run the
@@ -8,8 +10,8 @@
 # Additionally, this script is meant to help with multi-environment deployment
 # using Aaron Holbrook's WordPress/Git deployment model (http://aaronjholbrook.com/?=310)
 #
-# Created by Aaron Holbrook (@aaronjholbrook)
-# Thanks to tester Brad Parbs (@bradparbs) and Brian Richards (@rzen) for the ASCII Logo
+# Credit:
+# Thanks to Brad Parbs (@bradparbs) and Brian Richards (@rzen) for the ASCII Logo
 
 
 clear
