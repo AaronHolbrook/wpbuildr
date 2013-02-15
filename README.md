@@ -30,7 +30,11 @@ Requirements
 Running
 =======
 
-Place the folder within your Bash path (`/usr/local/sbin/`, `/usr/local/`) or add it to your Bash profile path.
+Add a symbolic link to your `/usr/local/sbin` folder:
+
+```
+ln -s ~/wpbuildr /usr/local/sbin/
+```
 
 Via the command line, navigate to your desired placement of your new WordPress install, simply run `wpbuildr`. 
 
