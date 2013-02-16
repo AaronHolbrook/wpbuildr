@@ -58,7 +58,8 @@ fi
 
 
 # Set path of script for our library files
-dir=`dirname $0`
+
+dir=`pwd -P`
 
 
 # Title the project
