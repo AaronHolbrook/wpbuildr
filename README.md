@@ -48,3 +48,15 @@ Customizing Plugins
 ===================
 
 Simply add or remove the slug of the plugins you want WPBuildr to install to the `conf/plugins.conf` file!
+
+Changelog
+=========
+
+**1.2**
+* Added support for native MySQL, first checks for MAMP, falls back to command line MySQL
+* Fixed issue with whitespace in project name preventing MySQL database from being created
+* Fixed issue with symlink preventing access to library files which would prevent plugins from being downloaded
+* Updated startbox repo (had migrated to webdevstudios from brichards)
+
+**1.0**
+* Initial release
