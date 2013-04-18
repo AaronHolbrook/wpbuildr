@@ -127,7 +127,7 @@ git commit -q -m "Installed WordPress core files."
 if [ "$framework" == "none" ] || [ "$framework" == "" ]; then
   framework_repo="none"
 elif [ "$framework" == "blueox" ]; then
-  framework_repo="git://github.com/AaronHolbrook/Blue-Ox.git"  
+  framework_repo="git://github.com/AaronHolbrook/blueox.git"  
 elif [ "$framework" == "_s" ]; then
   framework_repo="git://github.com/Automattic/_s.git"
 elif [ "$framework" == "starkers" ]; then
