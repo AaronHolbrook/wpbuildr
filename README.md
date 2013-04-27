@@ -51,6 +51,9 @@ Simply add or remove the slug of the plugins you want WPBuildr to install to the
 Changelog
 =========
 
+**1.3**
+* Added additional plugins that are useful to making WP a CMS from the get go
+
 **1.2**
 * Added support for native MySQL, first checks for MAMP, falls back to command line MySQL
 * Fixed issue with whitespace in project name preventing MySQL database from being created
