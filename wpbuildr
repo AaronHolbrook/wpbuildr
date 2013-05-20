@@ -24,15 +24,16 @@ echo '   |__/|__/ .___/_.___/\__,_/_/_/\__,_/_/     '
 echo '         /_/                                  '
 echo '   '
 echo "wpbuildr - an Aaron Holbrook Production"
+echo "modified by Jason Resnick for rezzz deployment"
 echo ''
 
 # create the html for site-root (to mimic MT, possibly look at allowing other structures)
 # if html dir exists, exit - let's not break anything!
-if [ -d "html" ]; then
-  echo "Oops, looks like you already have an html directory here! To protect your files, WP Buildr will now quit. If you meant to run it here, just rename/remove your existing html folder, and it will run."
-  echo "exiting..."
-  exit
-fi
+# if [ -d "html" ]; then
+#   echo "Oops, looks like you already have an html directory here! To protect your files, WP Buildr will now quit. If you meant to run it here, just rename/remove your existing html folder, and it will run."
+#   echo "exiting..."
+#   exit
+# fi
 
 
 # See if the user wants to use Git
@@ -56,7 +57,15 @@ else
   project=$1
 fi
 
-
+# Let's set up the username and password for the database - not to use root:root for local
+ran=$[ ( $RANDOM % 100 )  + 1 ]
+dbuser=u_$project
+dbpass=$project$ran
+# Because MySQL doesn't like long usernames
+LEN=${#dbuser}
+if [ $LEN -gt 15 ]; then
+    dbuser=${dbuser:0:15}
+fi
 # See if there's a config file, if not offer to create one based on the options the 
 # user chooses during the setup
 # if [ ! -e "$dir/conf/config.conf" ]; then
@@ -163,7 +172,8 @@ if [ "$framework_repo" != "none" ]; then
   # let's clear out some of the pre-packaged themes
   rm -rf wp-content/themes/twentyten
   rm -rf wp-content/themes/twentyeleven
-  rm -rf wp-content/themes/twentytwelve
+  # rm -rf wp-content/themes/twentytwelve 
+  # Let's leave twentytwelve in case our theme blows up we can always remove it later
 fi
 
 
@@ -373,12 +383,13 @@ mamp=yes
 command -v /Applications/MAMP/Library/bin/mysql >/dev/null 2>&1 || {
   mamp=no
 }
+CMD="CREATE DATABASE $project; CREATE USER '$dbuser'@'localhost' IDENTIFIED BY '$dbpass'; GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP, EXECUTE, INDEX on $project.* TO '$dbuser'@'localhost';"
 if [ "$mamp" == 'yes' ]; then
   # create local database using MAMP's MySQL
-  /Applications/MAMP/Library/bin/mysql -uroot -proot -e "CREATE DATABASE \`$project\`"
+  /Applications/MAMP/Library/bin/mysql -uroot -proot -e "$CMD"
 else
   # create local database using whatever MySQL the user is using
-  mysql -uroot -proot -e "CREATE DATABASE \`$project\`"
+  mysql -uroot -proot -e "$CMD"
 fi
 
 echo ''
@@ -398,6 +409,7 @@ echo '   |__/|__/ .___/_.___/\__,_/_/_/\__,_/_/     '
 echo '         /_/                                  '
 echo '   '
 echo "Thanks for using wpbuildr by @aaronjholbrook"
+echo "and modded by @rezzz"
 
 
 echo ''
