@@ -207,6 +207,9 @@ done
 
 
 cd ..
+mkdir uploads
+chmod 755 -R uploads
+#sudo chown _www uploads
 
 # Let's add some mu-plugins!
 mkdir mu-plugins
