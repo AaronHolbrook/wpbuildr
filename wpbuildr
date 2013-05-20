@@ -91,7 +91,7 @@ fi
 
 
 # Create html directory (todo: customizable structure)
-mkdir html; cd html
+# mkdir html; cd html
 
 
 # Init git repo and do an empty initial commit (for rebasing, thanks @evansolomon)
