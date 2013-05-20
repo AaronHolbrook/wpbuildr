@@ -48,6 +48,12 @@ Customizing Plugins
 
 Simply add or remove the slug of the plugins you want WPBuildr to install to the `conf/plugins.conf` file!
 
+To Do
+=====
+
+- Check if there are mu-plugins
+- Integrate SASS
+
 Changelog
 =========
 
