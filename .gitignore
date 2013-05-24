@@ -20,6 +20,8 @@ tmp
 config.ru
 *.log
 *.sql
+.sass-cache/
+*.zip
 
 
 ############################################################################
@@ -31,6 +33,10 @@ wp-content/cache/*
 wp-content/cache/supercache/*
 wp-content/backups/
 wp-content/uploads/
+wp-content/blogs.dir/
+wp-content/upgrade/*
+wp-content/backup-db/*
+wp-content/plugins/backupbuddy
 
 ############################################################################
 # Dev Tools #

@@ -45,6 +45,9 @@ echo ''
 # Set path of script for our library files
 dir="$(dirname "$(readlink "$0")")"
 
+# Set path of the project
+project_dir=`pwd`
+
 
 # Title the project
 # Use the title for:
@@ -56,6 +59,9 @@ if [ ! $1 ]; then
 else
   project=$1
 fi
+
+# How are we versioning this project? The whole thing, or just the wp-content/
+read -p "Should I version the whole project (including WP Core)? [Y/n] " versioning
 
 # Let's set up the username and password for the database - not to use root:root for local
 ran=$[ ( $RANDOM % 100 )  + 1 ]
@@ -93,11 +99,11 @@ fi
 # Create html directory (todo: customizable structure)
 # mkdir html; cd html
 
-
-# Init git repo and do an empty initial commit (for rebasing, thanks @evansolomon)
-git init -q
-git commit --allow-empty -q -m "Initial empty commit"
-
+if [ "$versioning" == "Y" ]; then
+  # Init git repo and do an empty initial commit (for rebasing, thanks @evansolomon)
+  git init -q
+  git commit --allow-empty -q -m "Initial empty commit"
+fi
 
 echo ''
 echo '------------------------------------------------------------------------'
@@ -106,9 +112,10 @@ echo '------------------------------------------------------------------------'
 echo ''
 
 
-
-# set .gitignore to ignore wp-config.local so we can set different database variables for development vs production
-cat "$dir/lib/.gitignore" > .gitignore
+if [ "$versioning" == "Y" ]; then
+  # set .gitignore to ignore wp-config.local so we can set different database variables for development vs production
+  cat "$dir/lib/.gitignore_core" > .gitignore
+fi
 
 
 # download wordpress, extract and delete original tar
@@ -126,11 +133,11 @@ echo '------------------------------------------------------------------------'
 echo ''
 
 
-
-# We succesfully added WordPress, so let's commit!
-git add .
-git commit -q -m "Installed WordPress core files."
-
+if [ "$versioning" == "Y" ]; then
+  # We succesfully added WordPress, so let's commit!
+  git add .
+  git commit -q -m "Installed WordPress core files."
+fi
 
 # Use framework option
 if [ "$framework" == "none" ] || [ "$framework" == "" ]; then
@@ -182,13 +189,21 @@ echo '---> THEME INSTALLED'
 echo '------------------------------------------------------------------------'
 echo ''
 
-
-# Cool - we added our theme, let's commit!
-git add .
-git commit -q -m "Theme framework installed!"
+if [ "$versioning" == "Y" ]; then
+  # Cool - we added our theme, let's commit!
+  git add .
+  git commit -q -am "Theme framework installed!"
+elif [ "$versioning" == "n" ]; then
+  cd $project_dir/wp-content/
+  cat "$dir/lib/.gitignore" > .gitignore
+  git init -q
+  git add .
+  git commit -q -am "Initial Commit"
+  cd ..
+fi
 
 # Clean out packaged plugins (akismet & hello dolly)
-cd wp-content/plugins
+cd $project_dir/wp-content/plugins
 rm -rf akismet
 rm hello.php
 
@@ -208,33 +223,42 @@ done
 
 cd ..
 mkdir uploads
-chmod 755 -R uploads
+chmod -R 755 uploads
 #sudo chown _www uploads
 
-# Let's add some mu-plugins!
-mkdir mu-plugins
-cd mu-plugins
-echo "<?php // mu-plugins/load.php" > load.php;
+# mu-plugins?
+read -p "Does the project need the mu-plugins [Y/n] " muplugins
+if [ "$muplugins" == "Y" ]; then
+  # Let's add some mu-plugins!
+  mkdir mu-plugins
+  cd mu-plugins
+  echo "<?php // mu-plugins/load.php" > load.php;
 
-# Install plugins that are listed in the mu-plugins.conf file
-# To add your/modify the plugins that are installed simply
-# Change the plugins file to contain the slug of the plugins you want! 
-for plugin in `cat $dir/conf/mu-plugins.conf`; do
-  echo "Installing: $plugin..."
-  mkdir $plugin; cd $plugin
-  curl -H "Accept-Encoding: gzip,deflate" http://downloads.wordpress.org/plugin/$plugin.zip > $plugin.zip
-  tar --strip-components=1 -zxf $plugin.zip
-  rm $plugin.zip
+  # Install plugins that are listed in the mu-plugins.conf file
+  # To add your/modify the plugins that are installed simply
+  # Change the plugins file to contain the slug of the plugins you want! 
+  for plugin in `cat $dir/conf/mu-plugins.conf`; do
+    echo "Installing: $plugin..."
+    mkdir $plugin; cd $plugin
+    curl -H "Accept-Encoding: gzip,deflate" http://downloads.wordpress.org/plugin/$plugin.zip > $plugin.zip
+    tar --strip-components=1 -zxf $plugin.zip
+    rm $plugin.zip
 
-  # Create a loader for the plugin (mu-plugins does not look in subdirectories)
-  cd ..
-  echo "require WPMU_PLUGIN_DIR . '/$plugin/$plugin.php';" >> load.php
-done
+    # Create a loader for the plugin (mu-plugins does not look in subdirectories)
+    cd ..
+    echo "require WPMU_PLUGIN_DIR . '/$plugin/$plugin.php';" >> load.php
+  done
+fi
 
-
-# cool, plugins are installed, let's commit!
-git add .
-git commit -q -m "Plugins installed!"
+if [ "$versioning" == "Y" ]; then
+  # cool, plugins are installed, let's commit!
+  git add .
+  git commit -q -am "Plugins installed!"
+elif [ "$versioning" == "n" ]; then
+  # cool, plugins are installed, let's commit!
+  git add .
+  git commit -q -am "Plugins installed!"
+fi
 
 
 echo ''
@@ -244,7 +268,7 @@ echo '------------------------------------------------------------------------'
 echo ''
 
 
-cd ../../
+cd $project_dir/
 echo "<?php
 /**
  * The base configurations of the WordPress.
@@ -354,11 +378,11 @@ rm wp-config-sample.php
 
 # define wp-config.local
 echo "<?php
-define('DB_NAME', '$project');
+define('DB_NAME', '${project}');
 /** MySQL database username */
-define('DB_USER', 'root');
+define('DB_USER', '${dbuser}');
 /** MySQL database password */
-define('DB_PASSWORD', 'root');
+define('DB_PASSWORD', '${dbpass}');
 /** MySQL hostname */
 define('DB_HOST', 'localhost');
 
@@ -368,13 +392,13 @@ define('WP_DEBUG', true);
 // Save queries
 define('SAVEQUERIES', true);
 
-\$table_prefix  = 'wp_"$project"_';" > wp-config.local.php
+\$table_prefix  = '${project}_';" > wp-config.local.php
 
-
-# cool, wp-config(s) has been created, let's commit!
-git add .
-git commit -q -am "Created wp-config & wp-config.local."
-
+if [ "$versioning" == "Y" ]; then
+  # cool, wp-config(s) has been created, let's commit!
+  git add .
+  git commit -q -am "Created wp-config & wp-config.local."
+fi
 
 echo '------------------------------------------------------------------------'
 echo '---> WP-CONFIG & WP-CONFIG.LOCAL CREATED'

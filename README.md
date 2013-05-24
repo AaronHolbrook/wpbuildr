@@ -56,6 +56,10 @@ To Do
 
 Changelog
 =========
+**2.0**
+* Choice to version whole project (core) or just the wp-content
+* Create the unique MySQL database, user, and password
+* Choice to include the mu-plugins
 
 **1.3**
 * Added additional plugins that are useful to making WP a CMS from the get go

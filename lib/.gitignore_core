@@ -1,14 +1,12 @@
 # This is a template .gitignore file for git-managed WordPress projects.
 #
-# Fact: you don't want WordPress core files, or your server-specific
-# configuration files etc., in your project's repository. You just don't.
-#
-# Solution: As a result, we only stick the site's wp-content in the repo
-#
 # See the comments below for more info on how to add exceptions for your
 # content. Or see git's documentation for more info on .gitignore files:
 # http://kernel.org/pub/software/scm/git/docs/gitignore.html
 
+############################################################################
+# OS Specific #
+############################################################################
 .DS_Store
 *~
 .*.swp
@@ -27,16 +25,22 @@ config.ru
 ############################################################################
 # Application Specific #
 ############################################################################
-advanced-cache.php
-wp-cache-config.php
-cache/*
-cache/supercache/*
-backups/
-uploads/
-blogs.dir/
-upgrade/*
-backup-db/*
-plugins/backupbuddy
+.htaccess
+sitemap.xml
+sitemap.xml.gz
+readme.html
+license.txt
+wp-config.local.php
+wp-content/advanced-cache.php
+wp-content/wp-cache-config.php
+wp-content/cache/*
+wp-content/cache/supercache/*
+wp-content/backups/
+wp-content/uploads/
+wp-content/blogs.dir/
+wp-content/upgrade/*
+wp-content/backup-db/*
+wp-content/plugins/backupbuddy
 
 ############################################################################
 # Dev Tools #
