@@ -45,10 +45,6 @@ echo ''
 # Set path of script for our library files
 dir="$(dirname "$(readlink "$0")")"
 
-# Set path of the project
-project_dir=`pwd`
-
-
 # Title the project
 # Use the title for:
 # DB Name
@@ -60,13 +56,24 @@ else
   project=$1
 fi
 
+mkdir $project
+cd $project
+
+# Set path of the project
+project_dir=`pwd`
+
+# echo $project_dir; exit;
+
+
 # How are we versioning this project? The whole thing, or just the wp-content/
 read -p "Should I version the whole project (including WP Core)? [Y/n] " versioning
 
 # Let's set up the username and password for the database - not to use root:root for local
 ran=$[ ( $RANDOM % 100 )  + 1 ]
-dbuser=u_$project
+dbname=${project//[-._]/}
+dbuser=u_$dbname
 dbpass=$project$ran
+
 # Because MySQL doesn't like long usernames
 LEN=${#dbuser}
 if [ $LEN -gt 15 ]; then
@@ -97,7 +104,7 @@ fi
 
 
 # Create html directory (todo: customizable structure)
-# mkdir html; cd html
+# mkdir $project_dir; cd $project_dir
 
 if [ "$versioning" == "Y" ]; then
   # Init git repo and do an empty initial commit (for rebasing, thanks @evansolomon)
@@ -378,7 +385,7 @@ rm wp-config-sample.php
 
 # define wp-config.local
 echo "<?php
-define('DB_NAME', '${project}');
+define('DB_NAME', '${dbname}');
 /** MySQL database username */
 define('DB_USER', '${dbuser}');
 /** MySQL database password */
@@ -392,7 +399,7 @@ define('WP_DEBUG', true);
 // Save queries
 define('SAVEQUERIES', true);
 
-\$table_prefix  = '${project}_';" > wp-config.local.php
+\$table_prefix  = '${dbname}_';" > wp-config.local.php
 
 if [ "$versioning" == "Y" ]; then
   # cool, wp-config(s) has been created, let's commit!
@@ -410,7 +417,7 @@ mamp=yes
 command -v /Applications/MAMP/Library/bin/mysql >/dev/null 2>&1 || {
   mamp=no
 }
-CMD="CREATE DATABASE $project; CREATE USER '$dbuser'@'localhost' IDENTIFIED BY '$dbpass'; GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP, EXECUTE, INDEX on $project.* TO '$dbuser'@'localhost';"
+CMD="CREATE DATABASE $dbname; CREATE USER '$dbuser'@'localhost' IDENTIFIED BY '$dbpass'; GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP, EXECUTE, INDEX on $dbname.* TO '$dbuser'@'localhost';"
 if [ "$mamp" == 'yes' ]; then
   # create local database using MAMP's MySQL
   /Applications/MAMP/Library/bin/mysql -uroot -proot -e "$CMD"
