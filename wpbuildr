@@ -230,6 +230,7 @@ echo '---> PLUGINS INSTALLED'
 echo '------------------------------------------------------------------------'
 echo ''
 
+project=${project/-/_} 
 
 cd ../../
 echo "<?php
@@ -287,7 +288,7 @@ else {
    * You can have multiple installations in one database if you give each a unique
    * prefix. Only numbers, letters, and underscores please!
    */
-  \$table_prefix  = 'wp_${config_values["project_name"]}_'; 
+  \$table_prefix  = 'wp_$project_'; 
 
 }
 
